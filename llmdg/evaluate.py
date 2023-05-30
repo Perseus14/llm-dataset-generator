@@ -4,7 +4,7 @@ import json
 from sentence_transformers import SentenceTransformer
 from sklearn.metrics.pairwise import cosine_similarity
 
-model = SentenceTransformer('bert-base-nli-mean-tokens')
+model = SentenceTransformer('sentence-transformers/all-MiniLM-L6-v2')
 
 def check_similarity(text1, text2):
     embeddings = model.encode([text1, text2])
@@ -15,7 +15,10 @@ def check_similarity(text1, text2):
 def eval_question(llm_questions, gt_questions):
     res = []
     for llm_question, gt_question in zip(llm_questions, gt_questions):
-        res.append(check_similarity(llm_question, gt_question))
+        if llm_question == gt_question:
+            res.append(1)
+        else:
+            res.append(0)
     return res
 
 def eval_answer(llm_answers, gt_answers):
@@ -28,10 +31,7 @@ def eval_answer(llm_answers, gt_answers):
 def eval_context(llm_contexts, gt_contexts):
     res = []
     for llm_context, gt_context in zip(llm_contexts, gt_contexts):
-        if llm_context == gt_context:
-            res.append(1)
-        else:
-            res.append(0)
+        res.append(check_similarity(llm_context, gt_context))
     return res
     
 
