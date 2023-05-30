@@ -82,7 +82,7 @@ def process_dataset(dataset):
             
         
 
-def run(corpus_path, output_path=None, model='gpt3.5-turbo', num_pairs=100, chunk_size=1000):
+def generate(corpus_path, output_path=None, model='gpt3.5-turbo', num_pairs=100, chunk_size=1000):
     logging.info("Starting Process...")
     db = process_docs(corpus_path=corpus_path, chunk_size=chunk_size)
     dataset = generate_dataset(db_instance=db, model=model, num_pairs=num_pairs)
@@ -99,6 +99,6 @@ def run(corpus_path, output_path=None, model='gpt3.5-turbo', num_pairs=100, chun
         
     
 if __name__=='__main__':
-    corpus_path = '../examples/UnitedAirlines'
-    results = run(corpus_path)
+    corpus_path = '../examples/corpus_folder'
+    results = generate(corpus_path)
     
