@@ -15,10 +15,7 @@ def check_similarity(text1, text2):
 def eval_question(llm_questions, gt_questions):
     res = []
     for llm_question, gt_question in zip(llm_questions, gt_questions):
-        if llm_question == gt_question:
-            res.append(1)
-        else:
-            res.append(0)
+        res.append(check_similarity(llm_question, gt_question))
     return res
 
 def eval_answer(llm_answers, gt_answers):
@@ -47,7 +44,7 @@ def evaluate(llm_out_path, ground_truth_out_path, result_path):
     
     res_context = eval_context(llm_json['context'].values(), gt_json['context'].values())
     res_question = eval_question(llm_json['question'].values(), gt_json['question'].values())
-    res_answer = eval_answer(llm_json['context'].values(), gt_json['context'].values())
+    res_answer = eval_answer(llm_json['answer'].values(), gt_json['answer'].values())
     
     res_df = pd.DataFrame()
     
